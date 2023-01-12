@@ -5,6 +5,8 @@ on:
     branches: [ "stage", "main" ]
     paths-ignore: [ "docs/**" ]
 
+permissions:
+  pull-requests: write
 
 jobs:
   inform-about-apply:
