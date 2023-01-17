@@ -40,8 +40,7 @@ class VideoViewSet(viewsets.ModelViewSet):
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-def list(self, request, *args, **kwargs):
-    queryset = self.filter_queryset(self.get_queryset())
-    serializer = VideoSerializer(queryset, many=True)
-    return Response(serializer.data)
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = VideoSerializer(queryset, many=True)
+        return Response(serializer.data)
