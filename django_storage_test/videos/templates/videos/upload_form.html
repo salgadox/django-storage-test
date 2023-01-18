@@ -3,7 +3,7 @@
 {% block title %}Upload video, user: {{ object.username }}{% endblock title %}
 
 {% block content %}
-<form method="post" action="{% url 'videos' %}" enctype="multipart/form-data">
+<form method="post" action="{% url 'api:video-list' %}" enctype="multipart/form-data">
   {% csrf_token %}
   <input type="file" name="video" accept="video/*">
   <input type="submit" value="Upload">
