@@ -1,16 +1,20 @@
-from django.shortcuts import render
-from django.views import View
+from django.views.generic import DetailView, ListView
 
-from .models import File
-
-
-class FileListView(View):
-    def get(self, request, *args, **kwargs):
-        files = File.objects.filter(uploaded_by=self.request.user)
-        return render(request, "file_list.html", {"files": files})
+from django_storage_test.files.models import File
 
 
-class FileDetailView(View):
-    def get(self, request, *args, **kwargs):
-        file = File.objects.get(file_name=kwargs["file_name"])
-        return render(request, "file_detail.html", {"file": file})
+class FileListView(ListView):
+    model = File
+    template_name = "file_list.html"
+    context_object_name = "files"
+
+    def get_queryset(self):
+        return File.objects.filter(uploaded_by=self.request.user)
+
+
+class FileDetailView(DetailView):
+    model = File
+    template_name = "file_detail.html"
+    context_object_name = "file"
+    slug_url_kwarg = "file_name"
+    slug_field = "file_name"
