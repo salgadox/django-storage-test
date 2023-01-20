@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-from django_storage_test.files.apis import (
+from django_storage_test.files.api.views import (
     FileDirectUploadFinishApi,
     FileDirectUploadLocalApi,
     FileDirectUploadStartApi,
