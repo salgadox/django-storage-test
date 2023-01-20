@@ -11,7 +11,6 @@ from django_storage_test.files.api.views import (
 # FILE_UPLOAD_STRATEGY and FILE_UPLOAD_STORAGE
 # For the sake fo simplicity and to serve as an example project, we are including everything here.
 
-app_name = "files"
 urlpatterns = [
     path(
         "upload/",
