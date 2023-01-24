@@ -1,15 +1,9 @@
-from django import forms
 from django.contrib import admin, messages
 from django.core.exceptions import ValidationError
 
+from django_storage_test.files.forms import FileForm
 from django_storage_test.files.models import File
 from django_storage_test.files.services import FileStandardUploadService
-
-
-class FileForm(forms.ModelForm):
-    class Meta:
-        model = File
-        fields = ["file"]
 
 
 @admin.register(File)
