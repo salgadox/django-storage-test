@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}File Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ file.file_name }}</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><strong>File Type:</strong> {{ file.file_type }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Created At:</strong> {{ file.created_at }}</td>
+                </tr>
+                <tr>
+                    <td><strong>URL:</strong> <a href="{{ file.url }}">{{ file.url }}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

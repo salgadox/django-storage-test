@@ -1,14 +1,30 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import serializers, status
+from rest_framework import mixins, serializers, status, viewsets
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from django_storage_test.files.api.serializers import FileSerializer
 from django_storage_test.files.mixins import ApiAuthMixin
 from django_storage_test.files.models import File
 from django_storage_test.files.services import (
     FileDirectUploadService,
     FileStandardUploadService,
 )
+
+
+class FileViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    # mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
+):
+    permission_classes = (IsAuthenticated,)
+    queryset = File.objects.all()
+    serializer_class = FileSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(uploaded_by=self.request.user)
 
 
 class FileStandardUploadApi(ApiAuthMixin, APIView):

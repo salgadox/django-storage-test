@@ -1,52 +1,13 @@
-from django.urls import include, path
+from django.urls import path
+from django.views.generic import TemplateView
 
-from django_storage_test.files.apis import (
-    FileDirectUploadFinishApi,
-    FileDirectUploadLocalApi,
-    FileDirectUploadStartApi,
-    FileStandardUploadApi,
-)
-
-# Depending on your case, you might want to exclude certain urls, based on the values of
-# FILE_UPLOAD_STRATEGY and FILE_UPLOAD_STORAGE
-# For the sake fo simplicity and to serve as an example project, we are including everything here.
+from django_storage_test.files.views import FileDetailView, FileListView
 
 app_name = "files"
 urlpatterns = [
+    path("", FileListView.as_view(), name="list"),
     path(
-        "upload/",
-        include(
-            (
-                [
-                    path("standard/", FileStandardUploadApi.as_view(), name="standard"),
-                    path(
-                        "direct/",
-                        include(
-                            (
-                                [
-                                    path(
-                                        "start/",
-                                        FileDirectUploadStartApi.as_view(),
-                                        name="start",
-                                    ),
-                                    path(
-                                        "finish/",
-                                        FileDirectUploadFinishApi.as_view(),
-                                        name="finish",
-                                    ),
-                                    path(
-                                        "local/<str:file_id>/",
-                                        FileDirectUploadLocalApi.as_view(),
-                                        name="local",
-                                    ),
-                                ],
-                                "direct",
-                            )
-                        ),
-                    ),
-                ],
-                "upload",
-            )
-        ),
-    )
+        "upload/", TemplateView.as_view(template_name="file_upload.html"), name="upload"
+    ),
+    path("<str:file_name>/", FileDetailView.as_view(), name="detail"),
 ]

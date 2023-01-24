@@ -39,7 +39,8 @@ class File(BaseModel):
 
     @property
     def url(self):
-        if "S3" in settings.DEFAULT_FILE_STORAGE:
-            return self.file.url
+        # if "S3" in settings.DEFAULT_FILE_STORAGE:
+        #     return self.file.url
 
-        return f"{settings.ALLOWED_HOSTS[0]}/{self.file.url}"
+        # return f"{settings.ALLOWED_HOSTS[0]}/{self.file.url}"
+        return self.file.url
