@@ -29,6 +29,7 @@ def s3_get_credentials() -> S3Credentials:
             # "AWS_DEFAULT_ACL",
             "_AWS_EXPIRY",
             "FILE_MAX_SIZE",
+            "AWS_S3_ENDPOINT_URL",
         ],
         "S3 credentials not found.",
     )
@@ -41,6 +42,7 @@ def s3_get_credentials() -> S3Credentials:
         # default_acl=required_config["AWS_DEFAULT_ACL"],
         presigned_expiry=required_config["_AWS_EXPIRY"],
         max_size=required_config["FILE_MAX_SIZE"],
+        endpoint_url=required_config["AWS_S3_ENDPOINT_URL"],
     )
 
 
@@ -52,6 +54,7 @@ def s3_get_client():
         aws_access_key_id=credentials.access_key_id,
         aws_secret_access_key=credentials.secret_access_key,
         region_name=credentials.region_name,
+        endpoint_url=credentials.endpoint_url,
     )
 
 
