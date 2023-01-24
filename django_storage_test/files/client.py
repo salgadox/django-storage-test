@@ -22,24 +22,24 @@ class S3Credentials:
 def s3_get_credentials() -> S3Credentials:
     required_config = assert_settings(
         [
-            "AWS_S3_ACCESS_KEY_ID",
-            "AWS_S3_SECRET_ACCESS_KEY",
+            "AWS_ACCESS_KEY_ID",
+            "AWS_SECRET_ACCESS_KEY",
             "AWS_S3_REGION_NAME",
             "AWS_STORAGE_BUCKET_NAME",
-            "AWS_DEFAULT_ACL",
-            "AWS_PRESIGNED_EXPIRY",
+            # "AWS_DEFAULT_ACL",
+            "_AWS_EXPIRY",
             "FILE_MAX_SIZE",
         ],
         "S3 credentials not found.",
     )
 
     return S3Credentials(
-        access_key_id=required_config["AWS_S3_ACCESS_KEY_ID"],
-        secret_access_key=required_config["AWS_S3_SECRET_ACCESS_KEY"],
+        access_key_id=required_config["AWS_ACCESS_KEY_ID"],
+        secret_access_key=required_config["AWS_SECRET_ACCESS_KEY"],
         region_name=required_config["AWS_S3_REGION_NAME"],
         bucket_name=required_config["AWS_STORAGE_BUCKET_NAME"],
-        default_acl=required_config["AWS_DEFAULT_ACL"],
-        presigned_expiry=required_config["AWS_PRESIGNED_EXPIRY"],
+        # default_acl=required_config["AWS_DEFAULT_ACL"],
+        presigned_expiry=required_config["_AWS_EXPIRY"],
         max_size=required_config["FILE_MAX_SIZE"],
     )
 
@@ -59,7 +59,8 @@ def s3_generate_presigned_post(*, file_path: str, file_type: str) -> dict[str, A
     credentials = s3_get_credentials()
     s3_client = s3_get_client()
 
-    acl = credentials.default_acl
+    # acl = credentials.default_acl
+    acl = "private"
     expires_in = credentials.presigned_expiry
 
     """
