@@ -13,7 +13,7 @@ class S3Credentials:
     secret_access_key: str
     region_name: str
     bucket_name: str
-    default_acl: str
+    # default_acl: str
     presigned_expiry: int
     max_size: int
 
