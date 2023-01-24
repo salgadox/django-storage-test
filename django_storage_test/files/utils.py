@@ -17,9 +17,9 @@ def file_generate_upload_path(instance, filename):
 
 
 def file_generate_local_upload_url(*, file_id: str):
-    url = reverse("api:files:upload:direct:local", kwargs={"file_id": file_id})
+    url = reverse("api:file-upload:upload:direct:local", kwargs={"file_id": file_id})
 
-    return f"{settings.ALLOWED_HOSTS[0]}/{url}"
+    return url  # f"{settings.ALLOWED_HOSTS[0]}{url}"
 
 
 def bytes_to_mib(value: int) -> float:

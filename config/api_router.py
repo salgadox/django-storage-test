@@ -15,5 +15,8 @@ router.register("files", FileViewSet)
 
 app_name = "api"
 urlpatterns = router.urls + [
-    path("file-upload/", include("django_storage_test.files.api.urls")),
+    path(
+        "file-upload/",
+        include("django_storage_test.files.api.urls", namespace="file-upload"),
+    ),
 ]

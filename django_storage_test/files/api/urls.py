@@ -9,8 +9,9 @@ from django_storage_test.files.api.views import (
 
 # Depending on your case, you might want to exclude certain urls, based on the values of
 # FILE_UPLOAD_STRATEGY and FILE_UPLOAD_STORAGE
-# For the sake fo simplicity and to serve as an example project, we are including everything here.
-
+# For the sake fo simplicity and to serve as an example project, we are including
+# everything here.
+app_name = "file_upload"
 urlpatterns = [
     path(
         "upload/",
