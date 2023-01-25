@@ -3,6 +3,7 @@ from typing import Any
 
 import boto3
 from attrs import define
+from botocore.client import Config
 
 from django_storage_test.files.utils import assert_settings
 
@@ -56,6 +57,7 @@ def s3_get_client():
         aws_secret_access_key=credentials.secret_access_key,
         region_name=credentials.region_name,
         endpoint_url=credentials.endpoint_url,
+        config=Config(s3={"addressing_style": "virtual"}),
     )
 
 
