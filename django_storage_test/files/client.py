@@ -3,6 +3,7 @@ from typing import Any
 
 import boto3
 from attrs import define
+from botocore.client import Config
 
 from django_storage_test.files.utils import assert_settings
 
@@ -16,6 +17,7 @@ class S3Credentials:
     # default_acl: str
     presigned_expiry: int
     max_size: int
+    endpoint_url: str
 
 
 @lru_cache
@@ -55,6 +57,7 @@ def s3_get_client():
         aws_secret_access_key=credentials.secret_access_key,
         region_name=credentials.region_name,
         endpoint_url=credentials.endpoint_url,
+        config=Config(s3={"addressing_style": "virtual"}),
     )
 
 
@@ -63,7 +66,7 @@ def s3_generate_presigned_post(*, file_path: str, file_type: str) -> dict[str, A
     s3_client = s3_get_client()
 
     # acl = credentials.default_acl
-    acl = "private"
+    # acl = "private"
     expires_in = credentials.presigned_expiry
 
     """
@@ -84,17 +87,8 @@ def s3_generate_presigned_post(*, file_path: str, file_type: str) -> dict[str, A
     }
     """
     presigned_data = s3_client.generate_presigned_post(
-        credentials.bucket_name,
-        file_path,
-        Fields={"acl": acl, "Content-Type": file_type},
-        Conditions=[
-            {"acl": acl},
-            {"Content-Type": file_type},
-            # As an example, allow file size up to 10 MiB
-            # More on conditions, here:
-            # https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-HTTPPOSTConstructPolicy.html
-            ["content-length-range", 1, credentials.max_size],
-        ],
+        Bucket=credentials.bucket_name,
+        Key=file_path,
         ExpiresIn=expires_in,
     )
 
