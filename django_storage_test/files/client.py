@@ -16,6 +16,7 @@ class S3Credentials:
     # default_acl: str
     presigned_expiry: int
     max_size: int
+    endpoint_url: str
 
 
 @lru_cache
