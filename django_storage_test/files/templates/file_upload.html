@@ -34,11 +34,10 @@
 			 success: function(response) {
 			     // var data = response.data;
 			     var postData = new FormData();
-
-			     for (var key in response) {
-				 postData.append(key, response[key]);
-			     }
-
+				 var fields = response.fields;
+				 for (var key in fields){
+					postData.append(key, fields[key]);
+				 }
 			     postData.append('file', file);
 
 			     $.ajax({
