@@ -12,7 +12,6 @@ from django_storage_test.files.utils import (
     bytes_to_mib,
     file_generate_local_upload_url,
     file_generate_name,
-    file_generate_upload_path,
 )
 
 
@@ -120,8 +119,8 @@ class FileDirectUploadService:
         file.full_clean()
         file.save()
 
-        upload_path = file_generate_upload_path(file, file.file_name)
-
+        # upload_path = file_generate_upload_path(file, file.file_name)
+        upload_path = file.file.name
         """
         We are doing this in order to have an associated file for the field.
         """
