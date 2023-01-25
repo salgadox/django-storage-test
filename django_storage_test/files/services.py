@@ -12,6 +12,7 @@ from django_storage_test.files.utils import (
     bytes_to_mib,
     file_generate_local_upload_url,
     file_generate_name,
+    file_generate_upload_path,
 )
 
 
@@ -118,15 +119,15 @@ class FileDirectUploadService:
         )
         file.full_clean()
         file.save()
+        # TODO fix ugly hardcoded media
+        upload_path = f"media/{file_generate_upload_path(file, file.file_name)}"
 
-        # upload_path = file_generate_upload_path(file, file.file_name)
-        upload_path = file.file.name
         """
         We are doing this in order to have an associated file for the field.
         """
         file.file = file.file.field.attr_class(file, file.file.field, upload_path)
         file.save()
-
+        # upload_path = file.file.name
         presigned_data: dict[str, Any] = {}
 
         if "S3" in settings.DEFAULT_FILE_STORAGE:
