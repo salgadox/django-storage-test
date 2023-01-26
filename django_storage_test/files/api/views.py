@@ -1,10 +1,12 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import mixins, serializers, status, viewsets
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from django_storage_test.files.api.serializers import FileSerializer
+from django_storage_test.files.client import s3_generate_presigned_get
 from django_storage_test.files.mixins import ApiAuthMixin
 from django_storage_test.files.models import File
 from django_storage_test.files.services import (
@@ -25,6 +27,17 @@ class FileViewSet(
 
     def get_queryset(self):
         return self.queryset.filter(uploaded_by=self.request.user)
+
+    @action(
+        detail=True,
+        methods=["GET"],
+    )
+    def generate_url(self, request, pk):
+        file = self.queryset.get(pk=pk)
+        # TODO Fix: Hardecoded media
+        url = s3_generate_presigned_get("media/" + file.file.name)
+        print("generate_url", url)
+        return Response({"url": url}, status=status.HTTP_200_OK)
 
 
 class FileStandardUploadApi(ApiAuthMixin, APIView):
