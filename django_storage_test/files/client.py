@@ -93,3 +93,18 @@ def s3_generate_presigned_post(*, file_path: str, file_type: str) -> dict[str, A
     )
 
     return presigned_data
+
+
+def s3_generate_presigned_get(*, file_path: str) -> str:
+    credentials = s3_get_credentials()
+    s3_client = s3_get_client()
+
+    expires_in = credentials.presigned_expiry
+
+    presigned_url = s3_client.generate_presigned_url(
+        "get_object",
+        Params={"Bucket": credentials.bucket_name, "Key": file_path},
+        ExpiresIn=expires_in,
+    )
+    print("presigned_url", presigned_url)
+    return presigned_url
