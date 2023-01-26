@@ -120,7 +120,7 @@ class FileDirectUploadService:
         file.full_clean()
         file.save()
         # TODO fix ugly hardcoded media
-        upload_path = f"media/{file_generate_upload_path(file, file.file_name)}"
+        upload_path = file_generate_upload_path(file, file.file_name)
 
         """
         We are doing this in order to have an associated file for the field.
@@ -129,10 +129,10 @@ class FileDirectUploadService:
         file.save()
         # upload_path = file.file.name
         presigned_data: dict[str, Any] = {}
-
+        # TODO fixhardcoded media path
         if "S3" in settings.DEFAULT_FILE_STORAGE:
             presigned_data = s3_generate_presigned_post(
-                file_path=upload_path, file_type=file.file_type
+                file_path="media/" + upload_path, file_type=file.file_type
             )
 
         else:
