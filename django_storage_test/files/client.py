@@ -106,5 +106,4 @@ def s3_generate_presigned_get(*, file_path: str) -> str:
         Params={"Bucket": credentials.bucket_name, "Key": file_path},
         ExpiresIn=expires_in,
     )
-    print("presigned_url", presigned_url)
     return presigned_url

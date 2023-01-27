@@ -36,7 +36,6 @@ class FileViewSet(
         file = self.queryset.get(pk=pk)
         # TODO Fix: Hardecoded media
         url = s3_generate_presigned_get("media/" + file.file.name)
-        print("generate_url", url)
         return Response({"url": url}, status=status.HTTP_200_OK)
 
 
