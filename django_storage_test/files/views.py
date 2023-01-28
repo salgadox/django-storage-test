@@ -1,3 +1,5 @@
+from django.contrib import messages
+from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
 from django_storage_test.files.models import File
@@ -18,3 +20,9 @@ class FileDetailView(DetailView):
     context_object_name = "file"
     slug_url_kwarg = "file_name"
     slug_field = "file_name"
+
+
+def latest_file_view(request):
+    latest_file = File.objects.filter(uploaded_by=request.user).last()
+    messages.success(request, "Your file has been uploaded successfully.")
+    return render(request, "file_detail.html", {"file": latest_file})
