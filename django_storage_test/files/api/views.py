@@ -37,7 +37,7 @@ class FileViewSet(
         file = self.queryset.get(pk=pk)
         # TODO Fix: Hardecoded media
         if "S3" in settings.DEFAULT_FILE_STORAGE:
-            url = s3_generate_presigned_get("media/" + file.file.name)
+            url = s3_generate_presigned_get(file_path="media/" + file.file.name)
         else:
             url = file.url
 
