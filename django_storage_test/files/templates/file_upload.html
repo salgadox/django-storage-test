@@ -53,7 +53,7 @@
 					 data: { file_id: response.id },
 					 success: function() {
 					     message.html('File upload completed!');
-						 window.location.href="{% url 'files:detail' file_name=fileName %}";
+						 window.location.href="{% url 'files:latest-file' %}";
 					 },
 					 error: function() {
 					     message.html('File upload failed!');
