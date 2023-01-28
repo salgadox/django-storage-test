@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action
@@ -35,7 +36,11 @@ class FileViewSet(
     def generate_url(self, request, pk):
         file = self.queryset.get(pk=pk)
         # TODO Fix: Hardecoded media
-        url = s3_generate_presigned_get("media/" + file.file.name)
+        if "S3" in settings.DEFAULT_FILE_STORAGE:
+            url = s3_generate_presigned_get("media/" + file.file.name)
+        else:
+            url = file.url
+
         return Response({"url": url}, status=status.HTTP_200_OK)
 
 
