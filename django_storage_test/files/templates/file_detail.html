@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
-
 {% block title %}File Detail{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -13,18 +17,18 @@
                 <tr>
                     <td><strong>Created At:</strong> {{ file.created_at }}</td>
                 </tr>
-                <!-- <tr>
-                    <td><button id="download-button" class="btn btn-primary" type="button">Donwload</button></td>
-                </tr> -->
             </tbody>
         </table>
+        <button id="download-button" class="btn btn-primary" type="button">Download</button>
     </div>
 
-<!-- <script>
+<script>
     var downloadButton = $('#download-button');
     downloadButton.on('click', function() {
-        var fileId = {{ file.id }};
-        $.getJSON({% url 'files:generate_url' file_name=file.file_name %});
+        $.getJSON("{% url 'api:file-generate-url' pk=file.id %}", function(data){
+            var win = window.open(data.url, "_blank");
+            win.focus();
+        });
     });
-</script> -->
+</script>
 {% endblock %}
